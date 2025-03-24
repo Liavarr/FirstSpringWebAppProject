@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport">
+	<title>Spring Framework</title>
+</head>
+<body>
+	<h1>Book list</h1>
+
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>Publisher</th>
+		</tr>
+		<!--Aqui podemos asignar books (que hemos especificado en el controller como addAttribute books) a book, y va a crear
+		una linea de la tabla por cada libro y lo va a asignar a book-->
+		<tr th:each="book : ${books}">
+			<th th:text="${book.id}">123</th>
+			<th th:text="${book.title}">Spring</th>
+			<th th:text="${book.publisher.name}">Wrox</th>
+		</tr>
+	</table>
+</body>
+</html>

@@ -18,9 +18,12 @@ public class Book {
 	private Long id;
 	private String title;
 	private String isbn;
-	private String publisher;
 	
-	// Con esto le decimos que haga merce con la tabla de Author generada directamente, solo se hace ahora 1 merging table
+	// Con Cascade hacemos que si se elimina el libro tambien se elimina el publisher
+	@OneToOne(cascade = CascadeType.ALL)
+	private Publisher publisher;
+	
+	// Con esto le decimos que haga merge con la tabla de Author generada directamente, solo se hace ahora 1 merging table
 	@ManyToMany
 	@JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
 	inverseJoinColumns = @JoinColumn(name = "author_id"))
@@ -30,14 +33,20 @@ public class Book {
 	// Constructors
 	public Book() {
 	}
-
-	public Book(String title, String isbn, String publisher) {
+	
+	
+	public Book(String title, String isbn) {
+		this.title = title;
+		this.isbn = isbn;
+	}
+	
+	public Book(String title, String isbn, Publisher publisher) {
 		this.title = title;
 		this.isbn = isbn;
 		this.publisher = publisher;
 	}
 	
-	public Book(String title, String isbn, String publisher, Set<Author> authors) {
+	public Book(String title, String isbn, Publisher publisher, Set<Author> authors) {
 		this.title = title;
 		this.isbn = isbn;
 		this.publisher = publisher;
@@ -70,11 +79,11 @@ public class Book {
 		this.isbn = isbn;
 	}
 
-	public String getPublisher() {
+	public Publisher getPublisher() {
 		return publisher;
 	}
 
-	public void setPublisher(String publisher) {
+	public void setPublisher(Publisher publisher) {
 		this.publisher = publisher;
 	}
 
@@ -106,7 +115,6 @@ public class Book {
 		if (getClass() != obj.getClass())
 			return false;
 		Book book = (Book) obj;
-		//Compara si el 
 		return id != null ? Objects.equals(id, book.id) : book.id == null;
 	}
 
